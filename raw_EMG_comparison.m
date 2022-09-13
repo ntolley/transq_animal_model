@@ -19,13 +19,13 @@ stim_type_list = unique({data_struct.Stim_Type});
 
 muscle = 'Bicep';
 rat_idx = 1;
-figure('units','normalized','outerposition',[0 0 1 1])
+figure('Position', [10 10 900 700])
 plot_idx = 1;
 
-stim_type_list = {'C3_Epidural_10_kHz_Biphasic_1_ms_Midline',;
-                  'C3_Epidural_10_kHz_Biphasic_1_ms_Midline',;
-                  'C3_Epidural_10_kHz_Biphasic_1_ms_Midline',;
-                  'C3_Epidural_10_kHz_Biphasic_1_ms_Midline'};
+stim_type_list = {'C5_Epidural_10_kHz_Biphasic_1_ms_Midline',;
+                  'C5_Epidural_10_kHz_Monophasic_1_ms_Midline',;
+                  'C5_Epidural_Single_Biphasic_1_ms_Midline',;
+                  'C5_Epidural_Single_Monophasic_1_ms_Midline'};
 
 for stim_type = 1:length(stim_type_list)
     filtered_struct = data_struct(strcmp(all_stim, stim_type_list(stim_type)));
@@ -40,16 +40,23 @@ for stim_type = 1:length(stim_type_list)
         real_time = repmat(linspace(0, 30, length_time), num_stim, 1);
          charge_data = repmat(filtered_struct(rat_idx).(muscle){2}',1,length_time);
 
-        plot3(charge_data(1:2:end,:)', real_time(1:2:end,:)', z_data(1:2:end,:)','LineWidth',1.3)
+        plot3(charge_data(1:2:end,:)', real_time(1:2:end,:)', z_data(1:2:end,:)','LineWidth',2)
 
         set(gca,'Ydir','reverse')
         view(280,20)
-        title(filtered_struct(rat_idx).Rat,'Interpreter','none')
+        title(filtered_struct(rat_idx).Stim_Type,'Interpreter','none')
     end
     
     plot_idx = plot_idx + 1;
-
+    ylabel('Time (ms)')
+    xlabel('Current (uA)');
+    zlabel('EMG (V)')
+    set(gca,'Ydir','reverse')
+    view(300,30)
+    
+    saveas(gcf, 'raw_EMG_plot.png')
 end
+
         
         
        

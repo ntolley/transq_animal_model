@@ -134,68 +134,24 @@ for rat = 1:length(rat_list)
 end
 
 %% Plot selectivity heatmaps
-
-figure
-count = 1;
-for stim_type = [1 5]
-    stim_data = arm_sel_data{stim_type};
- 
-    subaxis(2,2,count, 'Spacing', 0.15, 'Padding', 0, 'Margin', 0.1);
-%     hold on
-    
-    data_matrix = [];
-    ste_matrix = [];
-    
-    for pos = 1:3
-        pos_data = stim_data{pos};
-        %Eliminate missing rows
-        pos_data = pos_data(sum(pos_data,2) > 0,:);
-        avg_data = mean(pos_data,1);
-        ste_data = std(pos_data,1)/sqrt(size(pos_data,1));
-        
-        data_matrix(pos,:) = avg_data;
-        ste_matrix(pos,:) = ste_data;
-        
-        
-    end
-    
-%     xticklabels({'DEL','BIC','TRI', 'CAR'})
-%     xticks([1 2 3 4])
-%     yticklabels({'C7','C5','C3'})
-%     yticks([1 2 3])
-    
-    
-%     imagesc(flipud(data_matrix), [0.25 0.5])
-%     imagesc(flipud(ste_matrix), [0 0.05])
-    h = heatmap({'BIC','DEL','TRI', 'FCR'},{'C3','C5','C7'},data_matrix,'CellLabelColor','none');
-    h.Title = field_name_list{stim_type};
-    caxis(h, [0.15 0.35])
-    
-
-    colorbar
-    ax = gca;
-    ax.FontSize = 14;
-    count = count+1;
-end
-
-%% Line Plots
-% ***DOUBLE CHECK THIS LABELING
-muscle_title = {'Biceps','DEL','Triceps','FCR'};
-
 % stim_idx_list = [1 5]; %Epidural Bi
 % stim_idx_list = [3 7]; %Epidural Mono
-stim_idx_list = [2 6]; %Sp Bi
+% stim_idx_list = [2 6]; %Sp Bi
 % stim_idx_list = [4 8]; %Sp Mono
 
-% stim_idx_list = [2 4 6 8]; %Spinous Process set
-line_x_data = {[0.8 1.8 2.8],[],[],[] ,[1.2 2.2 3.2]};
+stim_plot_list = {[1 5], [2 6]};
+stim_title_list = {'epidural_biphasic', 'spinous_process_biphasic'};
 
-for muscle = [1 3]
-    subaxis(2,2,count, 'Spacing', 0.13, 'Padding', 0, 'Margin', 0.1);
-    hold on
-    for stim_type = 1:length(stim_idx_list)
+for plot_idx = 1:length(stim_plot_list)
+    figure('Position', [10 10 900 700])
+    count = 1;
+    
+    stim_idx_list = stim_plot_list{plot_idx};
+    for stim_type = stim_idx_list
+        stim_data = arm_sel_data{stim_type};
 
-        stim_data = arm_sel_data{stim_idx_list(stim_type)};
+        subaxis(2,2,count, 'Spacing', 0.15, 'Padding', 0, 'Margin', 0.1);
+    %     hold on
 
         data_matrix = [];
         ste_matrix = [];
@@ -208,30 +164,81 @@ for muscle = [1 3]
             ste_data = std(pos_data,1)/sqrt(size(pos_data,1));
 
             data_matrix(pos,:) = avg_data;
-            ste_matrix(pos,:) = ste_data;      
+            ste_matrix(pos,:) = ste_data;
+
 
         end
-        
-        errorbar(line_x_data{stim_type}, data_matrix(:,muscle), ste_matrix(:,muscle), 'LineWidth', 2)
 
+    %     xticklabels({'DEL','BIC','TRI', 'CAR'})
+    %     xticks([1 2 3 4])
+    %     yticklabels({'C7','C5','C3'})
+    %     yticks([1 2 3])
+
+
+    %     imagesc(flipud(data_matrix), [0.25 0.5])
+    %     imagesc(flipud(ste_matrix), [0 0.05])
+        h = heatmap({'BIC','DEL','TRI', 'FCR'},{'C3','C5','C7'},data_matrix,'CellLabelColor','none');
+        h.Title = field_name_list{stim_type};
+        caxis(h, [0.15 0.35])
+
+
+        colorbar
+        ax = gca;
+        ax.FontSize = 14;
+        count = count+1;
     end
-    plot([1.5 1.5], [-10 10], 'k--', 'LineWidth', 2)
-    plot([2.5 2.5], [-10 10], 'k--', 'LineWidth', 2)
-    
-    
-    xticks([1 2 3])
-    xticklabels({'C3', 'C5', 'C7'})
-    title(muscle_title{muscle})
-    if muscle == 2
-        legend(field_name_list{stim_idx_list})
+
+    %% Line Plots
+    % ***DOUBLE CHECK THIS LABELING
+    muscle_title = {'Biceps','DEL','Triceps','FCR'};
+
+    % stim_idx_list = [2 4 6 8]; %Spinous Process set
+    line_x_data = {[0.8 1.8 2.8],[],[],[] ,[1.2 2.2 3.2]};
+
+    for muscle = [1 3]
+        subaxis(2,2,count, 'Spacing', 0.13, 'Padding', 0, 'Margin', 0.1);
+        hold on
+        for stim_type = 1:length(stim_idx_list)
+
+            stim_data = arm_sel_data{stim_idx_list(stim_type)};
+
+            data_matrix = [];
+            ste_matrix = [];
+
+            for pos = 1:3
+                pos_data = stim_data{pos};
+                %Eliminate missing rows
+                pos_data = pos_data(sum(pos_data,2) > 0,:);
+                avg_data = mean(pos_data,1);
+                ste_data = std(pos_data,1)/sqrt(size(pos_data,1));
+
+                data_matrix(pos,:) = avg_data;
+                ste_matrix(pos,:) = ste_data;      
+
+            end
+
+            errorbar(line_x_data{stim_type}, data_matrix(:,muscle), ste_matrix(:,muscle), 'LineWidth', 2)
+
+        end
+        plot([1.5 1.5], [-10 10], 'k--', 'LineWidth', 2)
+        plot([2.5 2.5], [-10 10], 'k--', 'LineWidth', 2)
+
+
+        xticks([1 2 3])
+        xticklabels({'C3', 'C5', 'C7'})
+        title(muscle_title{muscle})
+        if muscle == 2
+            legend(field_name_list{stim_idx_list})
+        end
+        xlim([0.5 3.5])
+        ylim([0.1 0.4])
+        ylabel('Selectivity Index')
+        ax = gca;
+        ax.FontSize = 14;
+
+        count = count+1;
     end
-    xlim([0.5 3.5])
-    ylim([0.1 0.4])
-    ylabel('Selectivity Index')
-    ax = gca;
-    ax.FontSize = 14;
     
-    count = count+1;
+    saveas(gcf, ['selectivity', stim_title_list{plot_idx}, '.png'])
 end
-
 
