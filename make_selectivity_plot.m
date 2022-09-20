@@ -34,7 +34,6 @@ sigmoid_struct = sigmoid_struct(stim_filter);
 sigmoid_struct = sigmoid_struct(strcmp({sigmoid_struct.Lateral_Position}, 'Midline'));
 % sigmoid_struct = sigmoid_struct(strcmp({sigmoid_struct.Lateral_Position}, 'Lateral'));
 
-
 %% Organize for statistics 
 % Choose parameter to plot (1 = stim threshold, 2 = asymptote,
 % 3 = midpoint, 4 = slope, 5 = max_activation, 6 = max_charge)
@@ -99,9 +98,10 @@ field_name_list = {'10 kHz','10 kHz','110 kHz','10 kHz',...
     'Single Pulse','Single Pulse','Single Pulse','Single Pulse'};
 
 %{stim_type 8 cells}=>{position 3 cells}=>{rat x muscle (DEL, BIC, TRI)}
+
+
 arm_sel_data = {{[],[],[],[]},{[],[],[],[]},{[],[],[],[]},{[],[],[],[]},{[],[],[],[]},{[],[],[],[]},{[],[],[],[]},{[],[],[],[]}};
 
-wrist_sel_struct = struct();
 for rat = 1:length(rat_list)
     for stim_type = 1:length(stim_type_general)
         rat_filter = strcmp(['transq_rat_',num2str(rat_list(rat))],[sigmoid_struct.Rat]);
@@ -239,6 +239,6 @@ for plot_idx = 1:length(stim_plot_list)
         count = count+1;
     end
     
-    saveas(gcf, ['selectivity', stim_title_list{plot_idx}, '.png'])
+    saveas(gcf, ['selectivity', stim_title_list{plot_idx}, '.svg'])
 end
 

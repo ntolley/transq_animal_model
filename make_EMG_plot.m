@@ -54,7 +54,7 @@ for stim_type = 1:length(stim_type_list)
     set(gca,'Ydir','reverse')
     view(300,30)
     
-    saveas(gcf, 'raw_EMG_plot.png')
+saveas(gcf, 'raw_EMG_plot.svg')
 end
 
         

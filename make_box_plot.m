@@ -147,7 +147,7 @@ for w_idx = 1:length(waveform_list)
     
     end
     
-    saveas(gcf, ['activation_threshold_boxplot', waveform_list{w_idx}, '.png'])
+    saveas(gcf, ['activation_threshold_boxplot', waveform_list{w_idx}, '.svg'])
 end
 
 
