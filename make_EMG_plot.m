@@ -19,23 +19,31 @@ stim_type_list = unique({data_struct.Stim_Type});
 
 muscle = 'Tricep';
 rat_idx = 1;
-figure('Position', [10 10 900 700])
+figure('Position', [10 10 1800 700])
 plot_idx = 1;
 
 stim_type_list = {'C5_Epidural_10_kHz_Biphasic_1_ms_Midline',;
                   'C5_Epidural_10_kHz_Monophasic_1_ms_Midline',;
                   'C5_Epidural_Single_Biphasic_1_ms_Midline',;
-                  'C5_Epidural_Single_Monophasic_1_ms_Midline'};
+                  'C5_Epidural_Single_Monophasic_1_ms_Midline',
+                  'C5_Spinous_Process_10_kHz_Biphasic_1_ms_Midline',;
+                  'C5_Spinous_Process_10_kHz_Monophasic_1_ms_Midline',;
+                  'C5_Spinous_Process_Single_Biphasic_1_ms_Midline',;
+                  'C5_Spinous_Process_Single_Monophasic_1_ms_Midline'};
 
 plot_title_list = {'10 kHz Biphasic',;
                    '10 kHz Monophasic',;
                    'Single Biphasic',;
-                   'Single Monophasic'};
+                   'Single Monophasic',;
+                   '',;
+                   '',;
+                   '',;
+                   ''};
           
-
+max_lines = 10;
 for stim_type = 1:length(stim_type_list)
     filtered_struct = data_struct(strcmp(all_stim, stim_type_list(stim_type)));
-    subplot(2,2,plot_idx)
+    subplot(2,4,plot_idx)
     hold on
     if isempty(filtered_struct(rat_idx).(muscle)) ~= 1
 
@@ -44,9 +52,10 @@ for stim_type = 1:length(stim_type_list)
 
         length_time = size(z_data,2); 
         real_time = repmat(linspace(0, 30, length_time), num_stim, 1);
-         charge_data = repmat(filtered_struct(rat_idx).(muscle){2}',1,length_time);
+        charge_data = repmat(filtered_struct(rat_idx).(muscle){2}',1,length_time);
 
-        plot3(charge_data(1:2:end,:)', real_time(1:2:end,:)', z_data(1:2:end,:)','LineWidth',2)
+        % plot3(charge_data(1:2:end,:)', real_time(1:2:end,:)', z_data(1:2:end,:)','LineWidth',2)
+        plot3(charge_data(1:2:max_lines,:)', real_time(1:2:max_lines,:)', z_data(1:2:max_lines,:)','LineWidth',2)
 
         set(gca,'Ydir','reverse')
         view(280,20)
