@@ -17,7 +17,7 @@ end
 
 stim_type_list = unique({data_struct.Stim_Type});
 
-muscle = 'Bicep';
+muscle = 'Tricep';
 rat_idx = 1;
 figure('Position', [10 10 900 700])
 plot_idx = 1;
@@ -26,6 +26,12 @@ stim_type_list = {'C5_Epidural_10_kHz_Biphasic_1_ms_Midline',;
                   'C5_Epidural_10_kHz_Monophasic_1_ms_Midline',;
                   'C5_Epidural_Single_Biphasic_1_ms_Midline',;
                   'C5_Epidural_Single_Monophasic_1_ms_Midline'};
+
+plot_title_list = {'10 kHz Biphasic',;
+                   '10 kHz Monophasic',;
+                   'Single Biphasic',;
+                   'Single Monophasic'};
+          
 
 for stim_type = 1:length(stim_type_list)
     filtered_struct = data_struct(strcmp(all_stim, stim_type_list(stim_type)));
@@ -44,7 +50,7 @@ for stim_type = 1:length(stim_type_list)
 
         set(gca,'Ydir','reverse')
         view(280,20)
-        title(filtered_struct(rat_idx).Stim_Type,'Interpreter','none')
+        title(plot_title_list{stim_type}, 'Interpreter','none')
     end
     
     plot_idx = plot_idx + 1;
