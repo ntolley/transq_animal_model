@@ -116,13 +116,12 @@ for plot_depth_idx = 1:length(plot_depth_list)
 
                 end
                 title(muscle_names{muscle})
-                ylim([0 1.5e-3])
                 xticks([1 2 3])
                 xticklabels(pos_order)
                 ylabel('Sensitivity (% Activation/uA)')
-                ylim_max = ylim;
                 xlim([0.2 3.8])
-
+                ylim([0, 1.2e-3])
+                
                 ax = gca;
                 ax.FontSize = 17;
              

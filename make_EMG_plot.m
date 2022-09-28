@@ -76,7 +76,7 @@ for plot_group_idx = 1:length(plot_group)
         xlabel('Current (uA)');
         zlabel('EMG (V)')
         zlim([-10e-3, 12e-3])
-        set(gca,'Ydir','reverse', 'FontSize', 18)
+        set(gca,'Ydir','reverse')
         view(300,30)
 
     saveas(gcf, ['raw_EMG', group_names{plot_group_idx},'_plot.svg'])
